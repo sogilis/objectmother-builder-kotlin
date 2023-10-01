@@ -5,3 +5,8 @@ This POC is an experimentation in `Kotlin` to implement something which hash sam
 The solution explored here is heavily inspired by [factory_bot](https://github.com/thoughtbot/factory_bot), a ruby library which achieve to be very concise, readable and flexible.
 
 [see test() method in sources](src/main/kotlin/POC.kt)
+
+## Backlog
+
+- [ ] Make it work with immutable objects
+- [ ] Make sure it works well with tests
