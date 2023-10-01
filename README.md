@@ -12,6 +12,9 @@ The solution explored here is heavily inspired by [factory_bot](https://github.c
 
 * [Kotlin FactoryBot Library](https://github.com/gmkseta/k-factory-bot) : cannot handle immutable objets, trait usage is verified at compile time and object construction cannot be customized by traits
 
-## Backlog
+## Backlog and ideas
 
-- [ ] Make it work with immutable objects
+- Make it work with immutable objects
+- Take advantage of data classes?
+- Traits should be applied to constructor AND after object is created?
+- Custom properties should be applied to constructor AND after object is created?
