@@ -15,7 +15,7 @@ The solution explored here is heavily inspired by [factory_bot](https://github.c
 
 ## Backlog and ideas
 
-- Make it work with immutable objects
-- Take advantage of data classes?
-- Traits should be applied to constructor AND after object is created?
-- Custom properties should be applied to constructor AND after object is created?
+- :question: How to make it work with immutable objects?
+- :question: Take advantage of data classes?
+- :question: Traits should be applied to constructor AND after object is created?
+- :white_check_mark: Custom properties should be applied to constructor AND after object is created? => apply custom properties to constructor, and use arbitrary customization to override properties after object creation. 
