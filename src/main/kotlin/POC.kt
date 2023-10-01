@@ -7,6 +7,7 @@ class Rectangle(var x: Int, var y: Int, var width: Int, var height: Int, var lab
     fun fill() {}
     fun empty() {}
 
+    // This is necessary in order to complete it in test data builder
     companion object
 }
 
