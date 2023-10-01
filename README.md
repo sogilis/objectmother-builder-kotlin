@@ -8,6 +8,10 @@ The solution explored here is heavily inspired by [factory_bot](https://github.c
 
 [Rectangle class](src/main/kotlin/Rectangle.kt) is extended in [POC.kt](src/test/kotlin/v1/POC.kt). See how it can be used in [tests](src/test/kotlin/Test.kt).
 
+## Other approaches
+
+* [Kotlin FactoryBot Library](https://github.com/gmkseta/k-factory-bot) : cannot handle immutable objets, trait usage is verified at compile time and object construction cannot be customized by traits
+
 ## Backlog
 
 - [ ] Make it work with immutable objects
