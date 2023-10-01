@@ -11,6 +11,7 @@ The solution explored here is heavily inspired by [factory_bot](https://github.c
 ## Other approaches
 
 * [Kotlin FactoryBot Library](https://github.com/gmkseta/k-factory-bot) : cannot handle immutable objets, trait usage is verified at compile time and object construction cannot be customized by traits
+* [faktory-bot](https://github.com/raphiz/faktory-bot): code generation, cannot handle immutable objects and object construction cannot be customized by traits
 
 ## Backlog and ideas
 
