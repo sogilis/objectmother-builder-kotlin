@@ -1,6 +1,6 @@
-import FormeTraits.CENTERED
-import FormeTraits.CENTERED_AND_SQUARED
-import FormeTraits.SQUARED
+import RectangleTraits.CENTERED
+import RectangleTraits.CENTERED_AND_SQUARED
+import RectangleTraits.SQUARED
 
 // The class to initialize
 class Rectangle(var x: Int, var y: Int, var width: Int, var height: Int, var label: String?) {
@@ -21,8 +21,10 @@ private fun Rectangle.Companion.build(
     height: Int = 100,
     label: String = "width = $width", // Dynamic attribute based on other attribute
     override: Rectangle.() -> Unit = {}
-) = traits.collect(Rectangle(x, y, width, height, label)).apply(override)
-object FormeTraits {
+) = traits.fold(Rectangle(x, y, width, height, label)) { rectangle, trait -> trait.invoke(rectangle) }
+    .apply(override)
+
+object RectangleTraits {
     val SQUARED: Trait<Rectangle> = { it.apply { height = width } }
     val CENTERED: Trait<Rectangle> = {
         it.apply {
@@ -33,10 +35,6 @@ object FormeTraits {
     val CENTERED_AND_SQUARED: Trait<Rectangle> = { SQUARED(CENTERED(it)) }
     // TODO What about traits which affect constructor?
 
-}
-
-private fun <T, U> Array<T>.collect(forme: U): U {
-    TODO("Get it work with merging T and U")
 }
 
 typealias Trait<T> = (T) -> T
@@ -51,6 +49,6 @@ fun test() {
     Rectangle.build { fill() }
     Rectangle.build(CENTERED_AND_SQUARED, y = 10) {
         empty()
-        label = "my forme"
+        label = "my rectangle"
     }
 }
