@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    testImplementation("ch.tutteli.atrium:atrium-infix:1.0.0")
 }
 
 tasks.test {

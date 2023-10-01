@@ -4,9 +4,10 @@ This POC is an experimentation in `Kotlin` to implement [Test Data Builders](htt
 
 The solution explored here is heavily inspired by [factory_bot](https://github.com/thoughtbot/factory_bot), a ruby library which achieve to be very concise, readable and flexible.
 
-[see test() method in sources](src/main/kotlin/POC.kt)
+## POC
+
+[Rectangle class](src/main/kotlin/Rectangle.kt) is extended in [POC.kt](src/test/kotlin/v1/POC.kt). See how it can be used in [tests](src/test/kotlin/Test.kt).
 
 ## Backlog
 
 - [ ] Make it work with immutable objects
-- [ ] Make sure it works well with tests
