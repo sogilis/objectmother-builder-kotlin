@@ -1,4 +1,3 @@
-// The class to initialize
 class Rectangle(var x: Int, var y: Int, var width: Int, var height: Int, var label: String?) {
     var filled= false
     fun fill() { filled = true}
