@@ -1,4 +1,4 @@
-class Rectangle(var x: Int, var y: Int, var width: Int, var height: Int, var label: String?) {
+data class  Rectangle(var x: Int, var y: Int, var width: Int, var height: Int, var label: String?) {
     var filled= false
     fun fill() { filled = true}
     fun emptyLabel() { label = null}

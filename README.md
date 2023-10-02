@@ -20,6 +20,21 @@ Drawbacks:
 
 See more usages in [tests](src/test/kotlin/v1/Test.kt), and implementation [here](src/test/kotlin/v1/POC.kt).
 
+## POC v2
+
+```
+val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
+    emptyLabel()
+    label = "my rectangle"
+}.copy(y = 10)
+```
+
+Drawbacks:
+* requires data classes
+* boilerplate with `copy()` to override constructor parameters
+
+See more usages in [tests](src/test/kotlin/v2/Test.kt), and implementation [here](src/test/kotlin/v2/POC.kt).
+
 ## Other approaches
 
 * [Kotlin FactoryBot Library](https://github.com/gmkseta/k-factory-bot) : cannot handle immutable objets, trait usage is verified at compile time and object construction cannot be customized by traits

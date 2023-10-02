@@ -1,0 +1,63 @@
+package v2
+
+import ch.tutteli.atrium.api.infix.en_GB.toEqual
+import ch.tutteli.atrium.api.verbs.expect
+import ch.tutteli.atrium.creating.Expect
+import v1.CENTERED
+import v1.CENTERED_AND_SQUARED
+import v1.SQUARED
+import v1.build
+import kotlin.test.Test
+
+
+class Test {
+
+    @Test
+    fun simple() = expect(Rectangle.build().width) toEqual 100
+
+    @Test
+    fun `override constructor parameter`() {
+        val rectangle = Rectangle.build { x = 10 }
+        expect(rectangle.x) toEqual 10
+    }
+
+    @Test
+    fun trait() {
+        val rectangle = Rectangle.build(SQUARED)
+        expect(rectangle.width) toEqual rectangle.height
+    }
+
+    @Test
+    fun `multiple traits`() {
+        val rectangle = Rectangle.build(SQUARED, CENTERED)
+        expect(rectangle.width) toEqual rectangle.height
+        expect(rectangle.x) toEqual (rectangle.height / 2)
+    }
+
+    @Test
+    fun `override property with multiple traits`() {
+        val rectangle = Rectangle.build(SQUARED, CENTERED).copy(y = 10)
+        expect(rectangle.width) toEqual rectangle.height
+        expect(rectangle.x) toEqual (rectangle.height / 2)
+        expect(rectangle.y) toEqual 10
+    }
+
+    @Test
+    fun `arbitrary customization`() {
+        val rectangle = Rectangle.build { fill() }
+        expect(rectangle.width) toEqual rectangle.height
+        expect(rectangle.filled) toEqual true
+    }
+
+    @Test
+    fun `override property with traits and arbitrary customization`() {
+        val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
+            emptyLabel()
+            label = "my rectangle"
+        }.copy(y = 10)
+        expect(rectangle.width) toEqual rectangle.height
+        expect(rectangle.x) toEqual (rectangle.height / 2)
+        expect(rectangle.y) toEqual 10
+        expect(rectangle.label) toEqual "my rectangle"
+    }
+}
