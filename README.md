@@ -6,7 +6,7 @@ The solution explored here is heavily inspired by [factory_bot](https://github.c
 
 ## POC
 
-[Rectangle class](src/main/kotlin/Rectangle.kt) is extended in [POC.kt](src/test/kotlin/v1/POC.kt). See how it can be used in [tests](src/test/kotlin/Test.kt).
+[Rectangle class](src/main/kotlin/Rectangle.kt) is extended in [POC.kt](src/test/kotlin/v1/POC.kt). See how it can be used in [tests](src/test/kotlin/v1/Test.kt).
 
 ## Other approaches
 

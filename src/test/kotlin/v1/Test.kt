@@ -1,9 +1,8 @@
+package v1
+
+import Rectangle
 import ch.tutteli.atrium.api.infix.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
-import v1.CENTERED
-import v1.CENTERED_AND_SQUARED
-import v1.SQUARED
-import v1.build
 import kotlin.test.Test
 
 
