@@ -4,18 +4,23 @@ This POC is an experimentation in `Kotlin` to implement [Test Data Builders](htt
 
 The solution explored here is heavily inspired by [factory_bot](https://github.com/thoughtbot/factory_bot), a ruby library which achieve to be very concise, readable and flexible.
 
-## POC
+## POC v1
 
-[Rectangle class](src/main/kotlin/Rectangle.kt) is extended in [POC.kt](src/test/kotlin/v1/POC.kt). See how it can be used in [tests](src/test/kotlin/v1/Test.kt).
+```
+val rectangle = Rectangle.build(CENTERED_AND_SQUARED, y = 10) {
+    emptyLabel()
+    label = "my rectangle"
+}
+```
+
+Drawbacks:
+* this requires mutable objects
+* traits cannot be applied to constructor parameters
+* traits can override custom constructor parameters
+
+See more usages in [tests](src/test/kotlin/v1/Test.kt), and implementation [here](src/test/kotlin/v1/POC.kt).
 
 ## Other approaches
 
 * [Kotlin FactoryBot Library](https://github.com/gmkseta/k-factory-bot) : cannot handle immutable objets, trait usage is verified at compile time and object construction cannot be customized by traits
 * [faktory-bot](https://github.com/raphiz/faktory-bot): code generation, cannot handle immutable objects and object construction cannot be customized by traits
-
-## Backlog and ideas
-
-- :question: How to make it work with immutable objects?
-- :question: Take advantage of data classes?
-- :question: Traits should be applied to constructor AND after object is created?
-- :white_check_mark: Custom properties should be applied to constructor AND after object is created? => apply custom properties to constructor, and use arbitrary customization to override properties after object creation. 
