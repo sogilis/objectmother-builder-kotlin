@@ -2,6 +2,7 @@ package v3
 
 import ch.tutteli.atrium.api.infix.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
+import v3.TRAIT.*
 import kotlin.test.Test
 
 
