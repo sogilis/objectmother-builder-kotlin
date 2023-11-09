@@ -30,14 +30,20 @@ val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
 }.copy(y = 10)
 ```
 
+* `build()` builds a new instance with default values
+* `build()` accepts many traits as parameters to build instances with specific properties. These traits take a target instance and produce a new one.
+* `build()` accepts a lambda too in order to customize target instances.
+
 Drawbacks:
-* requires data classes
-* boilerplate with `copy()` to override constructor parameters
+* only data classes permit to customize constructor parameters easily (with `copy()`) 
 * generic factory code have to be duplicated
+
+Improvements:
+* split generic and code dedicated to target class
 
 See more usages in [tests](src/test/kotlin/v2/Test.kt), and implementation [here](src/test/kotlin/v2/POC.kt).
 
-## POC v3 - dedicated to data classes
+## POC v3
 
 ```
 val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
@@ -48,8 +54,13 @@ val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
 }
 ```
 
+* `build()` builds a new instance with default values
+* `build()` accepts many traits as parameters to build instances with specific properties. These traits customize constructor parameters of target class.
+* `build()` accepts a lambda too in order to customize constructor parameters of target class.
+* built instance can also be customized with `apply()` Kotlin method
+
 Drawbacks:
-* requires data classes
+* traits can only override constructor parameters
 * constructor parameters are repeated one too many (and does not bring any information)
 * generic factory code have to be duplicated
 
