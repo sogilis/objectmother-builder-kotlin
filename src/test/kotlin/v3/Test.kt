@@ -39,7 +39,7 @@ class Test {
 
     @Test
     fun `arbitrary customization`() {
-        val rectangle = Rectangle.build { fill() }
+        val rectangle = Rectangle.build().apply { fill() }
         expect(rectangle.width) toEqual rectangle.height
         expect(rectangle.filled) toEqual true
     }
@@ -47,9 +47,10 @@ class Test {
     @Test
     fun `override property with traits and arbitrary customization`() {
         val rectangle = Rectangle.build(BIG) {
+            y = 10
+        }.apply {
             emptyLabel()
             label = "my rectangle"
-            y = 10
         }
         expect(rectangle.width) toEqual rectangle.height
         expect(rectangle.x) toEqual (rectangle.height / 2)

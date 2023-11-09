@@ -37,18 +37,18 @@ See more usages in [tests](src/test/kotlin/v2/Test.kt), and implementation [here
 
 ## POC v3 - dedicated to data classes
 
-/!\ DOES NOT COMPILE
-
 ```
 val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
+    y = 10
+}.apply {
     emptyLabel()
     label = "my rectangle"
-    y = 10
 }
 ```
 
 Drawbacks:
 * requires data classes
+* list of constructor parameters have to be maintained in 3 statements
 
 See more usages in [tests](src/test/kotlin/v3/Test.kt), and implementation [here](src/test/kotlin/v3/POC.kt).
 
