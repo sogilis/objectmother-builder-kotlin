@@ -10,27 +10,26 @@ class RectangleParams(i: Int) {
     fun build() = Rectangle(x, y, width, height, label)
 }
 
-enum class TRAIT(private val override: RectangleParams.() -> Unit) {
-    SQUARED({ height = width }),
-    CENTERED({
-        x = height / 2
-        y = width / 2
-    }),
-    BIG({
-        width += 1000
-        height += 1000
-    });
-    fun applyTo(params: RectangleParams) = params.apply(override)
+val SQUARED: Trait<RectangleParams> = { height = width }
+val CENTERED: Trait<RectangleParams> = {
+    x = height / 2
+    y = width / 2
+}
+val BIG: Trait<RectangleParams> = {
+    width += 1000
+    height += 1000
 }
 
 // Code below is generic
 
+typealias Trait<T> = T.() -> Unit
+
 private var i = 0
 
 fun Rectangle.Companion.build(
-    vararg traits: TRAIT = emptyArray(),
+    vararg traits: Trait<RectangleParams> = emptyArray(),
     override: RectangleParams.() -> Unit = {}
 ) = RectangleParams(i++).apply {
-    traits.forEach { it.applyTo(this) }
+    traits.forEach { apply(it) }
     apply(override)
 }.build()

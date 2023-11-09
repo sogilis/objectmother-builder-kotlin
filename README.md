@@ -17,6 +17,7 @@ Drawbacks:
 * this requires mutable objects
 * traits cannot be applied to constructor parameters
 * traits can override custom constructor parameters
+* generic factory code have to be duplicated
 
 See more usages in [tests](src/test/kotlin/v1/Test.kt), and implementation [here](src/test/kotlin/v1/POC.kt).
 
@@ -32,6 +33,7 @@ val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
 Drawbacks:
 * requires data classes
 * boilerplate with `copy()` to override constructor parameters
+* generic factory code have to be duplicated
 
 See more usages in [tests](src/test/kotlin/v2/Test.kt), and implementation [here](src/test/kotlin/v2/POC.kt).
 
@@ -48,8 +50,8 @@ val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
 
 Drawbacks:
 * requires data classes
-* factory index is not thread safe
-* list of constructor parameters have to be maintained in 2 statements
+* constructor parameters are repeated one too many (and does not bring any information)
+* generic factory code have to be duplicated
 
 See more usages in [tests](src/test/kotlin/v3/Test.kt), and implementation [here](src/test/kotlin/v3/POC.kt).
 
