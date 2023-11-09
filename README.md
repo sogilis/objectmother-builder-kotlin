@@ -48,7 +48,8 @@ val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
 
 Drawbacks:
 * requires data classes
-* list of constructor parameters have to be maintained in 3 statements
+* factory index is not thread safe
+* list of constructor parameters have to be maintained in 2 statements
 
 See more usages in [tests](src/test/kotlin/v3/Test.kt), and implementation [here](src/test/kotlin/v3/POC.kt).
 
