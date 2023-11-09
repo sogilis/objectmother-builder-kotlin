@@ -38,9 +38,6 @@ Drawbacks:
 * only data classes permit to customize constructor parameters easily (with `copy()`) 
 * generic factory code have to be duplicated
 
-Improvements:
-* split generic and code dedicated to target class
-
 See more usages in [tests](src/test/kotlin/v2/Test.kt), and implementation [here](src/test/kotlin/v2/POC.kt).
 
 ## POC v3
