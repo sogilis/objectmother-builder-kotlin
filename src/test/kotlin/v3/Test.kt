@@ -1,4 +1,4 @@
-package v2
+package v3
 
 import ch.tutteli.atrium.api.infix.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
@@ -31,7 +31,7 @@ class Test {
 
     @Test
     fun `override property with multiple traits`() {
-        val rectangle = Rectangle.build(SQUARED, CENTERED).copy(y = 10)
+        val rectangle = Rectangle.build(SQUARED, CENTERED) { y = 10 }
         expect(rectangle.width) toEqual rectangle.height
         expect(rectangle.x) toEqual (rectangle.height / 2)
         expect(rectangle.y) toEqual 10
@@ -46,10 +46,11 @@ class Test {
 
     @Test
     fun `override property with traits and arbitrary customization`() {
-        val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
+        val rectangle = Rectangle.build(BIG) {
             emptyLabel()
             label = "my rectangle"
-        }.copy(y = 10)
+            y = 10
+        }
         expect(rectangle.width) toEqual rectangle.height
         expect(rectangle.x) toEqual (rectangle.height / 2)
         expect(rectangle.y) toEqual 10

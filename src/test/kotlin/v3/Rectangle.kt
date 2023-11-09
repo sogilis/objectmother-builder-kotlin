@@ -1,4 +1,6 @@
-data class  Rectangle(var x: Int, var y: Int, var width: Int, var height: Int, var label: String?) {
+package v3
+
+data class Rectangle(val x: Int, val y: Int, val width: Int, val height: Int, var label: String?) {
     var filled= false
     fun fill() { filled = true}
     fun emptyLabel() { label = null}
@@ -6,5 +8,3 @@ data class  Rectangle(var x: Int, var y: Int, var width: Int, var height: Int, v
     // This is necessary in order to complete it in test data builder
     companion object
 }
-
-

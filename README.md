@@ -35,6 +35,23 @@ Drawbacks:
 
 See more usages in [tests](src/test/kotlin/v2/Test.kt), and implementation [here](src/test/kotlin/v2/POC.kt).
 
+## POC v3 - dedicated to data classes
+
+/!\ DOES NOT COMPILE
+
+```
+val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
+    emptyLabel()
+    label = "my rectangle"
+    y = 10
+}
+```
+
+Drawbacks:
+* requires data classes
+
+See more usages in [tests](src/test/kotlin/v3/Test.kt), and implementation [here](src/test/kotlin/v3/POC.kt).
+
 ## Other approaches
 
 * [Kotlin FactoryBot Library](https://github.com/gmkseta/k-factory-bot) : cannot handle immutable objets, trait usage is verified at compile time and object construction cannot be customized by traits
