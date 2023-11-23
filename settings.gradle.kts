@@ -1,3 +1,3 @@
 
-rootProject.name = "factory_bot-kotlin"
+rootProject.name = "objetmother-builder-kotlin"
 

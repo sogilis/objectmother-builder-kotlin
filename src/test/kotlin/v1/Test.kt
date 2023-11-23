@@ -45,7 +45,7 @@ class Test {
 
     @Test
     fun `override property with traits and arbitrary customization`() {
-        val rectangle = Rectangle.build(CENTERED_AND_SQUARED, y = 10) {
+        val rectangle = Rectangle.build(CENTERED, SQUARED, y = 10) {
             emptyLabel()
             label = "my rectangle"
         }

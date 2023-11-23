@@ -22,6 +22,13 @@ val CENTERED: Trait<Rectangle> = {
         y = width / 2
     }
 }
+val BIG: Trait<Rectangle> = {
+    it.apply {
+        width = width + 1000
+        height = height + 1000
+    }
+}
+
 val CENTERED_AND_SQUARED: Trait<Rectangle> = { SQUARED(CENTERED(it)) }
 // TODO What about traits which affect constructor?
 

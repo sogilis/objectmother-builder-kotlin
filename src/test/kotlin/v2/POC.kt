@@ -16,10 +16,10 @@ private fun rectangle(i: Int): Rectangle {
 val SQUARED: Trait<Rectangle> = { it.apply { height = width } }
 
 val CENTERED: Trait<Rectangle> = {
-    it.apply {
-        x = height / 2
-        y = width / 2
-    }
+    it.copy (
+        x = it.height / 2,
+        y = it.width / 2
+    )
 }
 val CENTERED_AND_SQUARED: Trait<Rectangle> = { SQUARED(CENTERED(it)) }
 

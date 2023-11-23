@@ -1,5 +1,7 @@
 package v3
 
+import dataclass.Rectangle
+
 class RectangleParams(i: Int) {
     var x: Int = i
     var y: Int = arrayOf(1, 2, 3).random()
