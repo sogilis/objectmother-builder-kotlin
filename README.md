@@ -41,7 +41,7 @@ For example, if we can to create a squared rectangle, `Rectangle.squared()` woul
 ### Prerequisites
 
 * target class is a data class
-* companion object declared in target class (no more necessary with Kotlin 2)
+* companion object declared in target class (no more necessary with Kotlin 2?)
 
 ### Usage
 
@@ -97,7 +97,7 @@ fun Rectangle.Companion.build(
 
 ### Prerequisites
 
-* companion object declared in target class (no more necessary with Kotlin 2)
+* companion object declared in target class (no more necessary with Kotlin 2?)
 
 ### Usage
 
@@ -164,7 +164,7 @@ typealias Trait<T> = (T) -> T
 ### Prerequisites
 
 * target class is a data class
-* companion object declared in target class (no more necessary with Kotlin 2)
+* companion object declared in target class (no more necessary with Kotlin 2?)
 
 ### Usage
 
@@ -235,7 +235,7 @@ fun Rectangle.Companion.build(
 ### Prerequisites
 
 * target class is a data class
-* companion object declared in target class (no more necessary with Kotlin 2)
+* companion object declared in target class (no more necessary with Kotlin 2?)
 
 ### Usage
 
