@@ -47,7 +47,7 @@ class Test {
 
     @Test
     fun `override property with traits and arbitrary customization`() {
-        val rectangle = Rectangle.build(BIG) {
+        val rectangle = Rectangle.build(SQUARED, BIG) {
             y = 10
         }.apply {
             emptyLabel()

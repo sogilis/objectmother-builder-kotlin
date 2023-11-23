@@ -119,6 +119,7 @@ val rectangle = Rectangle.build(SQUARED, BIG, y = 10) {
 | manually customize mutable state            | ✅                  |
 | combine all of this                         | ✅                  |
 
+Note: implementation is a bit complex
 
 ### Implementation
 
@@ -127,11 +128,11 @@ var i = 0
 
 fun Rectangle.Companion.build(
     vararg traits: Trait<Rectangle> = emptyArray<Trait<Rectangle>>(),
-    x: Int = i++, // Dynamic attribute based on a sequence
-    y: Int = arrayOf(1, 2, 3).random(), // Dynamic attribute
+    x: Int = i++,
+    y: Int = arrayOf(1, 2, 3).random(),
     width: Int = 100,
     height: Int = 100,
-    label: String = "width = $width", // Dynamic attribute based on other attribute
+    label: String = "width = $width",
     override: Rectangle.() -> Unit = {}
 ) = traits.fold(Rectangle(x, y, width, height, label)) { rectangle, trait -> trait.invoke(rectangle) }
     .apply(override)
@@ -231,8 +232,15 @@ fun Rectangle.Companion.build(
 
 ## POC v3
 
+### Prerequisites
+
+* target class is a data class
+* companion object declared in target class (no more necessary with Kotlin 2)
+
+### Usage
+
 ```
-val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
+val rectangle = Rectangle.build(SQUARED, BIG) {
     y = 10
 }.apply {
     emptyLabel()
@@ -240,19 +248,61 @@ val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
 }
 ```
 
-* `build()` builds a new instance with default values
-* `build()` accepts many traits as parameters to build instances with specific properties. These traits customize
-  constructor parameters of target class.
-* `build()` accepts a lambda too in order to customize constructor parameters of target class.
-* built instance can also be customized with `apply()` Kotlin method
+| feature                                     | is it implemented? |
+|---------------------------------------------|--------------------|
+| default instance                            | ✅                  |
+| customize with many traits                  | ✅                  |
+| traits can customize constructor parameters | ✅                  |
+| traits can customize mutable state          | ❌                  |
+| traits based on each others                 | ???                |
+| manually customize constructor parameters   | ✅                  |
+| manually customize mutable state            | ✅ with `apply()`   |
+| combine all of this                         | ✅                  |
 
-Drawbacks:
 
-* traits can only override constructor parameters
-* constructor parameters are repeated one too many (and does not bring any information)
-* generic factory code have to be duplicated
+### Implementation
 
-See more usages in [tests](src/test/kotlin/v3/Test.kt), and implementation [here](src/test/kotlin/v3/POC.kt).
+```
+class RectangleParams(i: Int) {
+    var x: Int = i
+    var y: Int = arrayOf(1, 2, 3).random()
+    var width: Int = 100
+    var height: Int = width
+    var label: String? = "width = $width"
+
+    fun build() = Rectangle(x, y, width, height, label)
+}
+
+val SQUARED: Trait<RectangleParams> = { height = width }
+val CENTERED: Trait<RectangleParams> = {
+    x = height / 2
+    y = width / 2
+}
+val BIG: Trait<RectangleParams> = {
+    width += 1000
+    height += 1000
+}
+val CENTERED_AND_SQUARED: Trait<Rectangle> = { ??? }
+```
+
+### Generic code
+
+```
+typealias Trait<T> = T.() -> Unit
+```
+
+And follow code should be duplicated for each target class:
+
+```
+private var i = 0
+fun Rectangle.Companion.build(
+    vararg traits: Trait<RectangleParams> = emptyArray(),
+    override: RectangleParams.() -> Unit = {}
+) = RectangleParams(i++).apply {
+    traits.forEach { apply(it) }
+    apply(override)
+}.build()
+```
 
 ## Other approaches
 
