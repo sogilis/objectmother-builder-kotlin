@@ -45,7 +45,7 @@ For example, if we can to create a squared rectangle, `Rectangle.squared()` woul
 
 ### Usage
 
-```
+```kotlin
 val rectangle = Rectangle.build(SQUARED, BIG)
     .copy(y = 10)
     .apply { emptyLabel() }
@@ -66,7 +66,7 @@ val rectangle = Rectangle.build(SQUARED, BIG)
 
 ### Implementation
 
-```
+```kotlin
 fun build(i: Int): Rectangle {
     val width = 100
     return Rectangle(i, arrayOf(1, 2, 3).random(), width, 120, "width = $width")
@@ -80,13 +80,13 @@ val CENTERED_AND_SQUARED: Trait<Rectangle> = { SQUARED(CENTERED(this)) }
 
 ### Generic code
 
-```
+```kotlin
 typealias Trait<T> = T.() -> T
 ```
 
 And follow code should be duplicated for each target class:
 
-```
+```kotlin
 private var i = 0
 fun Rectangle.Companion.build(
     vararg traits: Trait<Rectangle> = emptyArray()
@@ -101,7 +101,7 @@ fun Rectangle.Companion.build(
 
 ### Usage
 
-```
+```kotlin
 val rectangle = Rectangle.build(SQUARED, BIG, y = 10) {
     emptyLabel()
     label = "my rectangle"
@@ -123,7 +123,7 @@ Note: implementation is a bit complex
 
 ### Implementation
 
-```
+```kotlin
 var i = 0
 
 fun Rectangle.Companion.build(
@@ -155,7 +155,7 @@ val CENTERED_AND_SQUARED: Trait<Rectangle> = { SQUARED(CENTERED(it)) }
 
 ### Generic code
 
-```
+```kotlin
 typealias Trait<T> = (T) -> T
 ```
 
@@ -168,7 +168,7 @@ typealias Trait<T> = (T) -> T
 
 ### Usage
 
-```
+```kotlin
 val rectangle = Rectangle.build(SQUARED, BIG) {
     emptyLabel()
     label = "my rectangle"
@@ -189,7 +189,7 @@ val rectangle = Rectangle.build(SQUARED, BIG) {
 
 ### Implementation
 
-```
+```kotlin
 private fun rectangle(i: Int): Rectangle {
     val width = 100
     return Rectangle(
@@ -214,13 +214,13 @@ val CENTERED_AND_SQUARED: Trait<Rectangle> = { SQUARED(CENTERED(it)) }
 
 ### Generic code
 
-```
+```kotlin
 typealias Trait<T> = (T) -> T
 ```
 
 And follow code should be duplicated for each target class:
 
-```
+```kotlin
 var i = 0
 fun Rectangle.Companion.build(
     vararg traits: Trait<Rectangle> = emptyArray(),
@@ -239,7 +239,7 @@ fun Rectangle.Companion.build(
 
 ### Usage
 
-```
+```kotlin
 val rectangle = Rectangle.build(SQUARED, BIG) {
     y = 10
 }.apply {
@@ -262,7 +262,7 @@ val rectangle = Rectangle.build(SQUARED, BIG) {
 
 ### Implementation
 
-```
+```kotlin
 class RectangleParams(i: Int) {
     var x: Int = i
     var y: Int = arrayOf(1, 2, 3).random()
@@ -287,13 +287,13 @@ val CENTERED_AND_SQUARED: Trait<Rectangle> = { ??? }
 
 ### Generic code
 
-```
+```kotlin
 typealias Trait<T> = T.() -> Unit
 ```
 
 And follow code should be duplicated for each target class:
 
-```
+```kotlin
 private var i = 0
 fun Rectangle.Companion.build(
     vararg traits: Trait<RectangleParams> = emptyArray(),
