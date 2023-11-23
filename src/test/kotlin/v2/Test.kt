@@ -3,6 +3,7 @@ package v2
 import ch.tutteli.atrium.api.infix.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
 import kotlin.test.Test
+import dataclass.Rectangle
 
 
 class Test {
@@ -46,7 +47,7 @@ class Test {
 
     @Test
     fun `override property with traits and arbitrary customization`() {
-        val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
+        val rectangle = Rectangle.build(SQUARED, BIG) {
             emptyLabel()
             label = "my rectangle"
         }.copy(y = 10)

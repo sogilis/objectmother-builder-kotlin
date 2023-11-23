@@ -1,6 +1,6 @@
 package v2
 
-import Rectangle
+import dataclass.Rectangle
 
 private fun rectangle(i: Int): Rectangle {
     val width = 100
@@ -13,10 +13,10 @@ private fun rectangle(i: Int): Rectangle {
     )
 }
 
-val SQUARED: Trait<Rectangle> = { it.apply { height = width } }
-
+val SQUARED: Trait<Rectangle> = { it.copy(height = it.width) }
+val BIG: Trait<Rectangle> = { it.copy(height = it.height + 1000, width = it.width + 1000) }
 val CENTERED: Trait<Rectangle> = {
-    it.copy (
+    it.copy(
         x = it.height / 2,
         y = it.width / 2
     )

@@ -120,7 +120,7 @@ val rectangle = Rectangle.build(SQUARED, BIG, y = 10) {
 | combine all of this                         | ✅                  |
 
 
-## Implementation
+### Implementation
 
 ```
 var i = 0
@@ -160,24 +160,74 @@ typealias Trait<T> = (T) -> T
 
 ## POC v2
 
+### Prerequisites
+
+* target class is a data class
+* companion object declared in target class (no more necessary with Kotlin 2)
+
+### Usage
+
 ```
-val rectangle = Rectangle.build(CENTERED_AND_SQUARED) {
+val rectangle = Rectangle.build(SQUARED, BIG) {
     emptyLabel()
     label = "my rectangle"
 }.copy(y = 10)
 ```
 
-* `build()` builds a new instance with default values
-* `build()` accepts many traits as parameters to build instances with specific properties. These traits take a target
-  instance and produce a new one.
-* `build()` accepts a lambda too in order to customize target instances.
+| feature                                     | is it implemented? |
+|---------------------------------------------|--------------------|
+| default instance                            | ✅                  |
+| customize with many traits                  | ✅                  |
+| traits can customize constructor parameters | ❌                  |
+| traits can customize mutable state          | ✅ with `copy()`    |
+| traits based on each others                 | ✅                  |
+| manually customize constructor parameters   | ❌                  |
+| manually customize mutable state            | ✅                  |
+| combine all of this                         | ✅                  |
 
-Drawbacks:
 
-* customization of constructor parameters need data class and usage of `copy()`
-* generic factory code have to be duplicated
+### Implementation
 
-See more usages in [tests](src/test/kotlin/v2/Test.kt), and implementation [here](src/test/kotlin/v2/POC.kt).
+```
+private fun rectangle(i: Int): Rectangle {
+    val width = 100
+    return Rectangle(
+        x = i, // Dynamic attribute based on a sequence
+        y = arrayOf(1, 2, 3).random(), // Dynamic attribute
+        width = width,
+        height = 100,
+        label = "width = $width", // Dynamic attribute based on other attribute
+    )
+}
+
+val SQUARED: Trait<Rectangle> = { it.copy(height = it.width) }
+val BIG: Trait<Rectangle> = { it.copy(height = it.height + 1000, width = it.width + 1000) }
+val CENTERED: Trait<Rectangle> = {
+    it.copy(
+        x = it.height / 2,
+        y = it.width / 2
+    )
+}
+val CENTERED_AND_SQUARED: Trait<Rectangle> = { SQUARED(CENTERED(it)) }
+```
+
+### Generic code
+
+```
+typealias Trait<T> = (T) -> T
+```
+
+And follow code should be duplicated for each target class:
+
+```
+var i = 0
+fun Rectangle.Companion.build(
+    vararg traits: Trait<Rectangle> = emptyArray(),
+    override: Rectangle.() -> Unit = {}
+): Rectangle {
+    return traits.fold(rectangle(i++)) { args, trait -> trait.invoke(args) }.apply(override)
+}
+```
 
 ## POC v3
 
