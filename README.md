@@ -310,3 +310,7 @@ fun Rectangle.Companion.build(
   verified at compile time and object construction cannot be customized by traits
 * [faktory-bot](https://github.com/raphiz/faktory-bot): code generation, cannot handle immutable objects and object
   construction cannot be customized by traits
+
+## Further explorations
+
+* Is it possible with Kotlin 2, to extend any companion ? If yes, it may reduce the amount of generic code to write with many solutions. 
