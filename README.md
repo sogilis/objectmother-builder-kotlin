@@ -313,4 +313,5 @@ fun Rectangle.Companion.build(
 
 ## Further explorations
 
-* Is it possible with Kotlin 2, to extend any companion ? If yes, it may reduce the amount of generic code to write with many solutions. 
+* Is it possible with Kotlin 2, to extend any companion ? If yes, it may reduce the amount of generic code to write with many solutions.
+* https://github.com/yujinyan/faktory with its usage of KProperty in `Factory.make()`
