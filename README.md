@@ -254,7 +254,7 @@ val rectangle = Rectangle.build(SQUARED, BIG) {
 | customize with many traits                  | ✅                  |
 | traits can customize constructor parameters | ✅                  |
 | traits can customize mutable state          | ❌                  |
-| traits based on each others                 | ???                |
+| traits based on each others                 | ✅                  |
 | manually customize constructor parameters   | ✅                  |
 | manually customize mutable state            | ✅ with `apply()`   |
 | combine all of this                         | ✅                  |

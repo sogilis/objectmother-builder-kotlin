@@ -22,7 +22,10 @@ val BIG: Trait<RectangleParams> = {
     height += 1000
 }
 // FIXME
-val CENTERED_AND_SQUARED: Trait<Rectangle> = { SQUARED.apply(this) }
+val CENTERED_AND_SQUARED: Trait<RectangleParams> = {
+    apply(SQUARED)
+    apply(SQUARED)
+}
 
 // Code below is generic
 
