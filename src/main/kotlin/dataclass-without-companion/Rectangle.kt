@@ -1,6 +1,4 @@
-package dataclass
-
-import `dataclass-without-companion`.A
+package `dataclass-without-companion`
 
 @Repeatable
 annotation class A(val value: Int)
@@ -12,9 +10,6 @@ data class Rectangle(val x: Int, val y: Int, val width: Int, val height: Int, va
     var filled= false
     fun fill() { filled = true}
     fun emptyLabel() { label = null}
-
-    // This is necessary in order to complete it in test data builder
-    companion object
 }
 
 

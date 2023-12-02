@@ -304,6 +304,72 @@ fun Rectangle.Companion.build(
 }.build()
 ```
 
+## POC v4
+
+### Prerequisites
+
+* target class is a data class
+
+### Usage
+
+```kotlin
+val rectangle = create(Rectangle, SQUARED, BIG)
+    .copy(y = 10)
+    .apply { emptyLabel() }
+```
+
+| feature                                     | is it implemented? |
+|---------------------------------------------|--------------------|
+| default instance                            | ✅                  |
+| customize with many traits                  | ✅                  |
+| traits can customize constructor parameters | ✅ with `copy()`    |
+| traits can customize mutable state          | ❌ (*)              |
+| traits based on each others                 | ✅                  |
+| manually customize constructor parameters   | ✅ with `copy()`    |
+| manually customize mutable state            | ✅ with `apply()`   |
+| combine all of this                         | ✅                  |
+
+(*) This is possible, but may lead to unexpected behavior when using multiple traits or mutable state is customized.
+
+Advantages:
+* no generic code to replicate for each target class
+* no need for target class to declare a companion object
+
+### Implementation
+
+```kotlin
+object Rectangle : Factory<Rectangle> {
+  override fun one(i: Int) = Rectangle(
+    x = i,
+    y = arrayOf(1, 2, 3).random(),
+    width = 50,
+    height = 100,
+    label = "width = 50",
+  )
+
+  val SQUARED: Trait<Rectangle> = { copy(width = height) }
+  val BIG: Trait<Rectangle> = {
+    copy(
+      width = width + 1000,
+      height = height + 1000
+    )
+  }
+}
+```
+
+### Generic code
+
+```kotlin
+interface Factory<T> {
+    fun one(i: Int): T
+}
+typealias Trait<T> = T.() -> T
+
+var i = 0;
+fun <T> create(factory: Factory<T>, vararg traits: Trait<T>) =
+    traits.fold(factory.one(i++)) { model, trait -> trait.invoke(model) }
+```
+
 ## Other approaches
 
 * [Kotlin FactoryBot Library](https://github.com/gmkseta/k-factory-bot) : cannot handle immutable objets, trait usage is
@@ -313,6 +379,5 @@ fun Rectangle.Companion.build(
 
 ## Further explorations
 
-* Is it possible with Kotlin 2, to extend any companion ? If yes, it may reduce the amount of generic code to write with many solutions.
 * https://github.com/yujinyan/faktory with its usage of KProperty in `Factory.make()`
 * The syntax `create(Rectangle)` is also possible by passing companion object as parameter (more factory_bot like) !
