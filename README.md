@@ -1,47 +1,43 @@
 # ObjectMother with customization in Kotlin
 
-This POC is an experimentation in `Kotlin` to implement [Test Data Builders](http://wiki.c2.com/?TestDataBuilder) with
-the minimum of verbosity. We try to see here if `Kotlin` allows to minimize one major drawback
-of [Test Data Builders in `Java`](https://blog.sogilis.com/posts/2019-01-11-object-mother-builder-java/): verbosity.
+This repository explores many solutions in `Kotlin` to **create test data dynamically** based on [ObjectMother](http://wiki.c2.com/?ObjectMother) pattern.
+In `Java`, this can be addressed with [Test Data Builders](http://wiki.c2.com/?TestDataBuilder), but implies [a lot of verbosity](https://blog.sogilis.com/posts/2019-01-11-object-mother-builder-java/).
 
-The solution explored here is heavily inspired by [factory_bot](https://github.com/thoughtbot/factory_bot), a ruby
-library which achieve to be very concise, readable and flexible.
+[factory_bot](https://github.com/thoughtbot/factory_bot), written un `ruby`, was a great source of inspiration, which achieves to be very concise, readable and flexible.
 
-## The problem
+## The problem to resolve
 
-When writing tests, we often need to setup some data through instantiations, builders or factories (given in
-given/when/then or arrange in arrange/act/assert).
-This usually requires to provide much information in order to get valid data, but all this information are not
-necessarily relevant depending on the test, which leads to noise.
-More over, such information may hide the test intent. For example, does `Rectangle(center, 20, 20)` mean we need a
-rectangle with 20 as width, a square or a rectangle precisely centered?
+When writing tests, we many objects have to be created in `given` (given/when/then) or `arrange` (arrange/act/assert) phase.
+The creation of these objects usually requires to provide much information, but some of them are not relevant depending on the test, which leads to noise.
+More over, this may hide the test intent. For example, does `Rectangle(center, 20, 20)` mean we need a rectangle with 20 as width, a square or a rectangle precisely centered?
 
-`ObjectMother` can resolve these issues, but we also need to be able to arbitrary customize created instances, which may
-be tricky when classes are immutables.
+`ObjectMother` can resolve these issues (ex: `Rectangle.buildSquare()`), but we usually also need to:
+* **combine factories**. Ex: rectangle which is squared and centered on the origin
+* arbitrary customize created instances, which may be tricky when classes are immutables. Ex: a square with a particular side length
 
-Here is the functional solution we try to implement in this repository with Kotlin:
+Here is the functional solution we try to implement in this repository:
 
 * the ability to create a valid (default) instance of a class where provided data are fixed or generated on the fly
 * … which can be (manually) customized through constructor parameters
 * … which can be (manually) customized instance once created (if class is mutable)
 * … which can also be customized through many registered set of customizations (on constructor parameters or on created
-  instances), called traits
+  instances), called traits (like in [factory_bot](https://github.com/thoughtbot/factory_bot))
 * traits can be based on each others
-* and all of these can be combined in following order:
+* and all of these can be combined in following order (each one takes precedence to the previous one):
     - default instance
     - traits
     - constructor parameters
     - mutable state
 
-Additionally, the searched solution should ideally not imply any noise in tests.
-For example, if we can to create a squared rectangle, `Rectangle.squared()` would be ideal, unlike `RenctangleFactory.build(SQUARED)`.
+Additionally, the searched solutions should imply minimal noises in tests (with sufficient ).
+For example, `Rectangle.squared()` would be preferable compared to `RenctangleFactory.build(SQUARED)`.
 
 ## POC v0 - data classes
 
 ### Prerequisites
 
 * target class is a data class
-* target class must have declared a companion object (may be no longer necessary after Kotlin 2.0 thanks tp [static extension](https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md)
+* target class must have declared a companion object (no longer necessary after Kotlin 2.0 thanks to [static extension](https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md)
 
 ### Usage
 
@@ -51,7 +47,7 @@ val rectangle = Rectangle.build(SQUARED, BIG)
     .apply { emptyLabel() }
 ```
 
-| feature                                     | is it implemented? |
+| feature                                     | implemented?       |
 |---------------------------------------------|--------------------|
 | default instance                            | ✅                  |
 | customize with many traits                  | ✅                  |
@@ -97,7 +93,7 @@ fun Rectangle.Companion.build(
 
 ### Prerequisites
 
-* target class must have declared a companion object (may be no longer necessary after Kotlin 2.0 thanks tp [static extension](https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md)
+* target class must have declared a companion object (no longer necessary after Kotlin 2.0 thanks to [static extension](https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md)
 
 ### Usage
 
@@ -108,13 +104,13 @@ val rectangle = Rectangle.build(SQUARED, BIG, y = 10) {
 }
 ```
 
-| feature                                     | is it implemented? |
+| feature                                     | implemented?       |
 |---------------------------------------------|--------------------|
 | default instance                            | ✅                  |
 | customize with many traits                  | ✅                  |
 | traits can customize constructor parameters | ❌                  |
 | traits can customize mutable state          | ✅ with `apply()`   |
-| traits based on each others                 | ✅                |
+| traits based on each others                 | ✅                  |
 | manually customize constructor parameters   | ✅                  |
 | manually customize mutable state            | ✅                  |
 | combine all of this                         | ✅                  |
@@ -164,7 +160,7 @@ typealias Trait<T> = (T) -> T
 ### Prerequisites
 
 * target class is a data class
-* target class must have declared a companion object (may be no longer necessary after Kotlin 2.0 thanks tp [static extension](https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md)
+* target class must have declared a companion object (no longer necessary after Kotlin 2.0 thanks to [static extension](https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md)
 
 ### Usage
 
@@ -175,7 +171,7 @@ val rectangle = Rectangle.build(SQUARED, BIG) {
 }.copy(y = 10)
 ```
 
-| feature                                     | is it implemented? |
+| feature                                     | implemented?       |
 |---------------------------------------------|--------------------|
 | default instance                            | ✅                  |
 | customize with many traits                  | ✅                  |
@@ -235,7 +231,7 @@ fun Rectangle.Companion.build(
 ### Prerequisites
 
 * target class is a data class
-* target class must have declared a companion object (may be no longer necessary after Kotlin 2.0 thanks tp [static extension](https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md)
+* target class must have declared a companion object (no longer necessary after Kotlin 2.0 thanks to [static extension](https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md)
 
 ### Usage
 
@@ -248,7 +244,7 @@ val rectangle = Rectangle.build(SQUARED, BIG) {
 }
 ```
 
-| feature                                     | is it implemented? |
+| feature                                     | implemented?       |
 |---------------------------------------------|--------------------|
 | default instance                            | ✅                  |
 | customize with many traits                  | ✅                  |
@@ -318,7 +314,7 @@ val rectangle = create(Rectangle, SQUARED, BIG)
     .apply { emptyLabel() }
 ```
 
-| feature                                     | is it implemented? |
+| feature                                     | implemented?       |
 |---------------------------------------------|--------------------|
 | default instance                            | ✅                  |
 | customize with many traits                  | ✅                  |
@@ -370,7 +366,7 @@ fun <T> create(factory: Factory<T>, vararg traits: Trait<T>) =
     traits.fold(factory.one(i++)) { model, trait -> trait.invoke(model) }
 ```
 
-## Other approaches
+## Alternative approaches
 
 * [Kotlin FactoryBot Library](https://github.com/gmkseta/k-factory-bot) : cannot handle immutable objets, trait usage is
   verified at compile time and object construction cannot be customized by traits
@@ -380,4 +376,3 @@ fun <T> create(factory: Factory<T>, vararg traits: Trait<T>) =
 ## Further explorations
 
 * https://github.com/yujinyan/faktory with its usage of KProperty in `Factory.make()`
-* The syntax `create(Rectangle)` is also possible by passing companion object as parameter (more factory_bot like) !
